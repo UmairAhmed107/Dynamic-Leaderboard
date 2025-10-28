@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dynamic Leaderboard — DSA Showcase</title>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <div>
+        <h1>Dynamic Leaderboard — DSA Showcase</h1>
+        <p class="muted">AVL (BST) + Min-Heap + Map + Chart.js — polished UI & gamification</p>
+      </div>
+      <div class="controls-top">
+        <button id="saveBtn" class="btn ghost">Save</button>
+        <button id="loadBtn" class="btn ghost">Load</button>
+        <button id="exportBtn" class="btn ghost">Export</button>
+        <button id="importBtn" class="btn ghost">Import</button>
+        <button id="nextRoundBtn" class="btn primary">Next Round</button>
+        <button id="themeToggle" class="btn ghost">🌙 / ☀️</button>
+      </div>
+    </header>
+
+    <section class="grid">
+      <!-- Left column: Input + Leaderboard -->
+      <div class="left card">
+        <form id="playerForm" class="form-inline" onsubmit="return false;">
+          <div class="input-group">
+            <div class="avatar" id="avatarPreview">A</div>
+            <input id="playerName" type="text" placeholder="Player name" autocomplete="off"/>
+          </div>
+          <input id="playerScore" type="number" placeholder="Score" />
+          <button id="addBtn" class="btn primary">Add / Update</button>
+          <button id="incBtn" class="btn">+5</button>
+          <button id="decBtn" class="btn">-5</button>
+        </form>
+
+        <div class="small-ops">
+          <input id="searchName" type="text" placeholder="Search name..." />
+          <button id="searchBtn" class="btn ghost">Search</button>
+          <input id="topK" type="number" min="1" placeholder="Top K (e.g. 5)" />
+          <button id="showTopK" class="btn ghost">Show Top K</button>
+          <button id="resetBtn" class="btn danger">Reset</button>
+        </div>
+
+        <div class="leaderboard">
+          <h2>Leaderboard</h2>
+          <table id="leaderboardTable">
+            <thead>
+              <tr><th>#</th><th>Player</th><th>Score</th><th>Change</th><th></th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right column: Top-3, Stats, Selected Player -->
+      <aside class="right card">
+        <div class="top-cards">
+          <div class="top-card" id="firstCard"><div class="badge">1</div><div class="name">—</div><div class="score">—</div></div>
+          <div class="top-card small" id="secondCard"><div class="badge">2</div><div class="name">—</div><div class="score">—</div></div>
+          <div class="top-card small" id="thirdCard"><div class="badge">3</div><div class="name">—</div><div class="score">—</div></div>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><div class="muted">Total players</div><div id="totalPlayers">0</div></div>
+          <div class="stat"><div class="muted">Average score</div><div id="avgScore">0</div></div>
+          <div class="stat"><div class="muted">Top K (heap)</div><div id="topKList"></div></div>
+        </div>
+
+        <div class="selected card small-card">
+          <div class="muted">Selected Player</div>
+          <div id="selectedPlayer">None</div>
+          <div id="selectedRank" class="muted small"></div>
+          <div id="rankChange" class="muted small"></div>
+          <div id="rankAround" class="muted small"></div>
+          <canvas id="miniChart" width="300" height="150"></canvas>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="footer muted">Built with DSA — AVL & Heap. Click a player row to open history chart.</footer>
+  </main>
+
+  <!-- Chart modal -->
+  <div id="chartModal" class="modal hidden">
+    <div class="modal-panel">
+      <button id="closeChart" class="close">✕</button>
+      <h3 id="chartTitle">Score History</h3>
+      <canvas id="scoreChart" width="600" height="300"></canvas>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toasts" class="toasts"></div>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>
