@@ -370,7 +370,7 @@ document.getElementById('themeToggle').onclick=()=>{
   Seed demo data
 --------------------------- */
 function seedData(){
-  const seed=[['Alice',120],['Bob',75],['Charlie',95],['Daisy',45],['Eve',130],['Frank',60],['Grace',88],['Heidi',99],['Ivan',55],['Judy',73]];
+  const seed=[['Umair',120],['Jeevaraj',75],['Nithesh',95],['Saad',45],['Kiran',130],['Abbas',60],['Dhena',88],['Zahaak',99],['Umama',55],['Nadeem',73]];
   seed.forEach(([n,s])=>{ players.set(n,{score:s,history:[s]}); playerHistory.set(n,[s]); avl.insert(s,n); });
   updateUI();
 }
@@ -397,3 +397,4 @@ themeToggle.addEventListener("click", () => {
   themeToggle.textContent = isLight ? "☀️ / 🌙" : "🌙 / ☀️";
   localStorage.setItem("theme", isLight ? "light" : "dark");
 });
+
