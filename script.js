@@ -372,11 +372,11 @@ document.getElementById('nextRoundBtn').onclick = () => {
   Seed demo data
 --------------------------- */
 function seedData(){
-  const seed=[['Kiran',120],['Nithesh',75],['Abbas',95],['Raghavan',130],['dhena',60],['zahaak',88],['Umair',99]];
   seed.forEach(([n,s])=>{ players.set(n,{score:s,history:[s]}); playerHistory.set(n,[s]); avl.insert(s,n); });
   updateUI();
 }
 seedData();
+
 
 
 
