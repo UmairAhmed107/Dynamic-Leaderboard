@@ -298,14 +298,10 @@ function selectPlayer(name){
   window.miniChart=new Chart(ctx,{type:'line',data:{labels:hist.map((_,i)=>`T${i+1}`),datasets:[{label:name,data:hist,fill:false,borderWidth:2,tension:0.25}]},options:{responsive:true,scales:{y:{beginAtZero:true}}}});
 }
 
-/* ---------------------------
-  Chart Modal
---------------------------- */
 const modal=document.getElementById('chartModal');
 const chartTitle=document.getElementById('chartTitle');
 const ctx=document.getElementById('scoreChart').getContext('2d');
 let chartInstance=null;
-
 function showPlayerModal(name){
   const hist=playerHistory.get(name)||[players.get(name).score];
   chartTitle.textContent=`${name} — Score History`;
@@ -314,10 +310,6 @@ function showPlayerModal(name){
   modal.classList.remove('hidden');
 }
 document.getElementById('closeChart').onclick=()=>modal.classList.add('hidden');
-
-/* ---------------------------
-  Helpers
---------------------------- */
 function getAllRanks(){ const arr=avl.toArrayDesc(); const ranks={}; arr.forEach(([name],idx)=>{ ranks[name]=idx+1; }); return ranks; }
 
 /* ---------------------------
@@ -349,52 +341,13 @@ document.getElementById('importBtn').onclick = importJSON;
 /* ---------------------------
   Next Round simulation
 --------------------------- */
-document.getElementById('nextRoundBtn').onclick=()=>{
-  const names=[...players.keys()];
-  if(names.length===0) return;
-  names.forEach(n=>{
-    const delta=Math.floor(Math.random()*21)-10; // random -10..+10
-    changeScoreBy(n,delta);
-  });
-  toast('Next round simulated');
-};
-
-/* ---------------------------
-  Theme toggle
---------------------------- */
-document.getElementById('themeToggle').onclick=()=>{
-  document.body.classList.toggle('dark-mode');
-};
-
 /* ---------------------------
   Seed demo data
 --------------------------- */
 function seedData(){
-  const seed=[['Umair',120],['Jeevaraj',75],['Nithesh',95],['Saad',45],['Kiran',130],['Abbas',60],['Dhena',88],['Zahaak',99],['Umama',55],['Nadeem',73]];
   seed.forEach(([n,s])=>{ players.set(n,{score:s,history:[s]}); playerHistory.set(n,[s]); avl.insert(s,n); });
   updateUI();
 }
 seedData();
 
-/* Autosave on unload */
-window.addEventListener('beforeunload',saveToLocal);
-// 🌙 / ☀️ Theme Toggle with Persistence
-const themeToggle = document.getElementById("themeToggle");
-const currentTheme = localStorage.getItem("theme");
-
-// Apply saved theme on load
-if (currentTheme === "light") {
-  document.documentElement.classList.add("light");
-  themeToggle.textContent = "☀️ / 🌙";
-} else {
-  themeToggle.textContent = "🌙 / ☀️";
-}
-
-// Toggle on click
-themeToggle.addEventListener("click", () => {
-  document.documentElement.classList.toggle("light");
-  const isLight = document.documentElement.classList.contains("light");
-  themeToggle.textContent = isLight ? "☀️ / 🌙" : "🌙 / ☀️";
-  localStorage.setItem("theme", isLight ? "light" : "dark");
-});
 
