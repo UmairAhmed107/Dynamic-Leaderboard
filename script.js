@@ -341,6 +341,33 @@ document.getElementById('importBtn').onclick = importJSON;
 /* ---------------------------
   Next Round simulation
 --------------------------- */
+document.getElementById('nextRoundBtn').onclick = () => {
+  const names = [...players.keys()];
+  if (names.length === 0) return;
+
+  // Capture old ranks once before updating
+  const oldRanks = getAllRanks();
+
+  // Temporarily disable auto UI updates
+  const changes = [];
+  names.forEach(n => {
+    const delta = Math.floor(Math.random() * 21) - 10; // -10 .. +10
+    const obj = players.get(n);
+    if (!obj) return;
+    const newScore = obj.score + delta;
+    avl.delete(obj.score, n);
+    obj.score = newScore;
+    obj.history.push(newScore);
+    avl.insert(newScore, n);
+    changes.push({ name: n, delta });
+  });
+
+  // Re-render UI once after all changes
+  updateUI(null, oldRanks);
+
+  toast('Next round simulated');
+};
+
 /* ---------------------------
   Seed demo data
 --------------------------- */
@@ -350,6 +377,7 @@ function seedData(){
   updateUI();
 }
 seedData();
+
 
 
 
